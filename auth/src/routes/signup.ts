@@ -39,7 +39,7 @@ router.post("/api/users/signup", [
         const userJwt = jwt.sign({
             id: user.id,
             email: user.email
-        }, "fddsfdsf");
+        }, process.env.JWT_KEY!); //! is to tell TS that check is completed in index.ts
 
         //setting jwt in cookie
         req.session = {
