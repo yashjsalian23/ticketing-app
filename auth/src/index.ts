@@ -11,12 +11,13 @@ import { signoutRouter } from './routes/signout';
 import { NotFoundError } from './errors/not-found-error';
 
 const app = express();
-app.set('trust proxy',true);
+app.set('trust proxy',true);  //tells express that req from ingress is secure
 app.use(json());
 
+//intializing cookie session
 app.use(cookieSession({
-  signed: false,
-  secure: true
+  signed: false, //no encryption
+  secure: true //only from https
 }))
 
 app.use(currentUserRouter);
