@@ -35,7 +35,7 @@ router.post("/api/users/signup", [
 
         //generating jwt
         //first param include info that we want to add
-        //second is secret key
+        //second is secret key (used to verify jwt is original or not)
         const userJwt = jwt.sign({
             id: user.id,
             email: user.email
