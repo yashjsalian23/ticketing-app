@@ -16,7 +16,7 @@ app.use(json());
 //intializing cookie session
 app.use(cookieSession({
   signed: false, //no encryption
-  secure: true //only from https
+  secure: process.env.NODE_ENV !== 'test' //only from https
 }))
 
 app.use(currentUserRouter);
