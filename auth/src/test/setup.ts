@@ -1,7 +1,17 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
 
 import { app } from '../app';
+
+declare global {
+    namespace NodeJS {
+      interface Global {
+        signin(): Promise<string[]>;
+      }
+    }
+  }
+  
 
 let mongo: any;
 beforeAll(async () => {
@@ -27,3 +37,16 @@ afterAll(async () => {
     await mongo.stop();
     await mongoose.connection.close();
 });
+
+// using this method we can extract cookie directly in any test req
+global.signin = async () => {
+    const authRepsonse = await request(app)
+        .post('/api/users/signup')
+        .send({
+            email: "test@test.com",
+            password: "password"
+        })
+        .expect(201)
+    const cookie = authRepsonse.get('Set-Cookie'); //extracting cookie
+    return cookie;
+}
