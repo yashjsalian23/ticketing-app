@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
 import { BadRequestError } from '../errors/bad-request-error';
 import { validateRequest } from '../middlewares/validate-request';
-
+import { errorHandler } from '../middlewares/error-handler';
 const router = express.Router();
 
 router.post("/api/users/signup", [
@@ -15,7 +15,8 @@ router.post("/api/users/signup", [
         body("password")
         .trim()
         .isLength({min: 4, max:20})
-    ], validateRequest,
+        .withMessage("password must be between 4 to 20 charachters")
+    ], validateRequest, errorHandler,
     async (req:Request, res: Response) =>  {
         // const errors = validationResult(req);
 
@@ -27,6 +28,8 @@ router.post("/api/users/signup", [
         const existingEmail = await User.findOne({email});
         if(existingEmail){
             throw new BadRequestError('Email already in use');
+            //  res.send({error:"dss"});
+            // throw new Error("email use")
         }
 
         const user = User.build({email, password});

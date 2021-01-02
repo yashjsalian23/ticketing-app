@@ -5,9 +5,14 @@ export default ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
 
   const doRequest = async () => {
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
     try {
       setErrors(null);
-      const response = await axios[method](url, body);
+      const response = await axios[method](url, body, config);
 
       if (onSuccess) {
         onSuccess(response.data);
