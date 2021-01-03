@@ -1,9 +1,8 @@
 import buildClient from '../api/build-client';
 
 const LandingPage =  ({currentUser}) => {
-    console.log(currentUser);
-    // axios.get('/api/users/currentUser');
-    return <h1>Landing Page</h1>
+    let content = currentUser ? 'You are signed in' : 'You are not signed in';
+    return <h1>{content}</h1>
 
 }
 //this method will run in the server
