@@ -7,7 +7,7 @@ import  { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
-import { NotFoundError } from './errors/not-found-error';
+import { NotFoundError } from '@ticketnext/common';
 
 const app = express();
 app.set('trust proxy',true);  //tells express that req from ingress is secure

@@ -3,9 +3,7 @@ import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user';
-import { BadRequestError } from '../errors/bad-request-error';
-import { validateRequest } from '../middlewares/validate-request';
-import { errorHandler } from '../middlewares/error-handler';
+import { BadRequestError,validateRequest,errorHandler } from '@ticketnext/common';
 const router = express.Router();
 
 router.post("/api/users/signup", [
