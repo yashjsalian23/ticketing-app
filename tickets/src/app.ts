@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { NotFoundError } from '@ticketnext/common';
+import { NotFoundError, errorHandler, currentUser } from '@ticketnext/common';
 
 import { createTicketRouter } from './routes/new';
 
@@ -15,6 +15,8 @@ app.use(cookieSession({
   signed: false, //no encryption
   secure: process.env.NODE_ENV !== 'test' //only from https (false for test)
 }));
+
+app.use(currentUser);
 
 app.use(createTicketRouter);
 
