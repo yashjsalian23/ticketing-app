@@ -1,13 +1,14 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
 
 import { app } from '../app';
 
 declare global {
     namespace NodeJS {
       interface Global {
-        signin(): Promise<string[]>;
+        signin(): string[];
       }
     }
   }
@@ -39,14 +40,16 @@ afterAll(async () => {
 });
 
 // using this method we can extract cookie directly in any test req
-global.signin = async () => {
-    const authRepsonse = await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: "test@test.com",
-            password: "password"
-        })
-        .expect(201)
-    const cookie = authRepsonse.get('Set-Cookie'); //extracting cookie
-    return cookie;
+global.signin = () => {
+   const payload = {
+       id: 'dwdwdd',
+       email: 'test@tets.com'
+   };
+
+   const token = jwt.sign(payload,process.env.JWT_KEY!);
+   const session = {jwt:token};
+   const sessionJSON = JSON.stringify(session);
+   const base64 = Buffer.from(sessionJSON).toString('base64');
+
+   return [`express:sess=${base64}`];
 }
