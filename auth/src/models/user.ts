@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 import { Password } from '../services/password';
 
 //this tells ts about the properties of new user
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
         }
     }
 );
-
+//added typchecking
 userSchema.statics.build = (attrs: userAttrs) => {
     return new User(attrs);
 };
