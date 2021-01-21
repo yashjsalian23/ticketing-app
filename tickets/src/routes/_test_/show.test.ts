@@ -3,7 +3,7 @@ import { app } from '../../app';
 
 it('returns a 404 if the ticket is not found', async () => {
     const res = await request(app)
-      .get('/api/tickets/laskdjfalksfdlkakj')
+      .get('/api/tickets/6009c9c8176bd82f6c7c0cfb')
       .send()
       .expect(404);
   });
