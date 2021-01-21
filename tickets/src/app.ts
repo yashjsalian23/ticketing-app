@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 import { NotFoundError, errorHandler, currentUser } from '@ticketnext/common';
 
 import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
 
 const app = express();
 app.set('trust proxy',true);  //tells express that req from ingress is secure
@@ -17,9 +18,11 @@ app.use(cookieSession({
 }));
 
 app.use(currentUser);
-
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 app.all("*", () => { throw new NotFoundError()});
+
+app.use(errorHandler);
 
 export { app };
