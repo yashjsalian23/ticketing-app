@@ -7,6 +7,7 @@ import { NotFoundError, errorHandler, currentUser } from '@ticketnext/common';
 import { createTicketRouter } from './routes/new';
 import { showTicketRouter } from './routes/show';
 import { indexTicketRouter } from './routes/index';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy',true);  //tells express that req from ingress is secure
@@ -23,6 +24,7 @@ app.use(currentUser);
 app.use(createTicketRouter);
 app.use(showTicketRouter);
 app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 app.all("*", () => { throw new NotFoundError()});
 
