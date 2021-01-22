@@ -1,0 +1,35 @@
+import request from 'supertest'; //used for http reqs
+import { app } from '../../app';
+
+import mongoose from 'mongoose';
+
+it('returns a 404 if not a valid id', async () => {
+    const id = new mongoose.Types.ObjectId().toHexString();
+
+    await request(app)
+    .put(`/api/tickets/${id}`)
+    .set('Cookie',global.signin())
+    .send({
+        title: "ijjdd",
+        price: 25
+    })
+    .expect(404);
+});
+
+it('returns a 401 if user is not authenticated', async () => {
+    const id = new mongoose.Types.ObjectId().toHexString();
+
+    await request(app)
+    .put(`/api/tickets/${id}`)
+    .send({
+        title: "ijjdd",
+        price: 25
+    })
+    .expect(401);
+});
+
+it('returns a 401 if user doesnt owns a ticket', async () => {});
+
+it('returns a 400 if title or price is invalid', async () => {});
+
+it('returns a 200 if given correct inputs', async () => {});
