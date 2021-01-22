@@ -76,4 +76,29 @@ it('returns a 400 if title or price is invalid', async () => {
     .expect(400);
 });
 
-it('returns a 200 if given correct inputs', async () => {});
+it('returns a 200 if given correct inputs', async () => {
+    const cookie = global.signin();
+    const res = await request(app)
+    .post('/api/tickets')
+    .set('Cookie', cookie)
+    .send({
+        title: "dsdsd",
+        price: 55
+    });
+
+    await request(app)
+    .put(`/api/tickets/${res.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+        title: 'new',
+        price: 8
+    })
+    .expect(200);
+
+    const response = await request(app)
+    .get(`/api/tickets/${res.body.id}`)
+    .send();
+
+    expect(response.body.title).toEqual('new');
+    expect(response.body.price).toEqual(8);
+});

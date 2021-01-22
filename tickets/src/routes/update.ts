@@ -15,6 +15,14 @@ router.put('/api/tickets/:id', requireAuth,
 
         if(!ticket){throw new NotFoundError();} // if ticket doesnt exist send 404
         if(ticket.userId !== req.currentUser!.id){throw new NotAuthorizedError();} //if any other user is updating send 401
+
+        ticket.set({
+            title: req.body.title,
+            price: req.body.price
+        });
+
+        await ticket.save();
+
         res.send(ticket);
 });
 
