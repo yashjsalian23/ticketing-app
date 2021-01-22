@@ -47,6 +47,33 @@ it('returns a 401 if user doesnt owns a ticket', async () => {
     .expect(401);
 });
 
-it('returns a 400 if title or price is invalid', async () => {});
+it('returns a 400 if title or price is invalid', async () => {
+    const cookie = global.signin();
+    const res = await request(app)
+    .post('/api/tickets')
+    .set('Cookie', cookie)
+    .send({
+        title: "dsdsd",
+        price: 55
+    });
+
+    request(app)
+    .put(`/api/tickets/${res.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+        title: '',
+        price: 4
+    })
+    .expect(400);
+
+    request(app)
+    .put(`/api/tickets/${res.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+        title: 'sdjsnd',
+        price: -4
+    })
+    .expect(400);
+});
 
 it('returns a 200 if given correct inputs', async () => {});
